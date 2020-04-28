@@ -1,0 +1,19 @@
+#!/sbin/openrc-run
+# https://github.com/OpenRC/openrc/blob/master/service-script-guide.md
+
+name="hcloud-k3os-configurator"
+command="/usr/bin/hcloud-k3os-configurator"
+command_background=true
+pidfile="/var/run/hcloud-k3os-configurator.pid"
+output_log="/var/log/hcloud-k3os-configurator.log"
+error_log="/var/log/hcloud-k3os-configurator.log"
+
+depend() {
+    # We write a pidfile and to /var/cache, so we need localmount.
+    need localmount dbus
+    provide net
+    before iptables ip6tables
+    # We should be after bootmisc so that /var/run is cleaned before
+    # we put our pidfile there.
+    after bootmisc
+}

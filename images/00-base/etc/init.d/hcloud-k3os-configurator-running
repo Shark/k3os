@@ -1,0 +1,22 @@
+#!/sbin/openrc-run
+
+depend() {
+  need hcloud-k3os-configurator
+}
+
+start() {
+	local infinite rc
+
+	ebegin "Checking to see if hcloud-k3os-configurator is running"
+	rc=0
+	timeout=${timeout:-120}
+	[ $timeout -eq 0 ] && infinite=true || infinite=false
+	while $infinite || [ $timeout -gt 0 ]; do
+    [ -f /var/lib/hcloud-k3os/.running ] && break
+		sleep 0.5
+		: $((timeout -= 1))
+	done
+	! $infinite && [ $timeout -eq 0 ] && rc=1
+	[ -f /var/lib/hcloud-k3os/.running ] && rc=0
+	eend $rc "hcloud-k3os-configurator is not running"
+}

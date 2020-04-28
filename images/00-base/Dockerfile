@@ -13,6 +13,7 @@ RUN apk --no-cache add \
     curl \
     dbus \
     dmidecode \
+    dhcpcd \
     dosfstools \
     e2fsprogs \
     e2fsprogs-extra \
@@ -25,6 +26,9 @@ RUN apk --no-cache add \
     hvtools \
     iproute2 \
     iptables \
+    ip6tables \
+    iptables-openrc \
+    ip6tables-openrc \
     iscsi-scst \
     jq \
     kbd-bkeymaps \
@@ -46,6 +50,7 @@ RUN apk --no-cache add \
     parted \
     procps \
     qemu-guest-agent \
+    restic \
     rng-tools \
     rsync \
     strace \
@@ -61,3 +66,11 @@ RUN apk --no-cache add \
 # replicate the default "no idea, friend" behavior of virt-what
  && touch /usr/sbin/virt-what \
  && chmod +x /usr/sbin/virt-what
+
+RUN curl -sSL https://github.com/Shark/hcloud-k3os-configurator/releases/download/v0.0.14/hcloud-k3os-configurator_v0.0.14_amd64.xz | xz -d > /usr/bin/hcloud-k3os-configurator \
+ && chmod +x /usr/bin/hcloud-k3os-configurator \
+ && curl -sSL https://github.com/derailed/k9s/releases/download/v0.19.7/k9s_Linux_x86_64.tar.gz | tar xz k9s \
+ && mv k9s /usr/bin/k9s
+
+COPY etc/init.d /etc/init.d
+COPY etc/conf.d /etc/conf.d
