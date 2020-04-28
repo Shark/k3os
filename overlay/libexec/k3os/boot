@@ -37,11 +37,11 @@ setup_services()
         ln -s /etc/init.d/$i /etc/runlevels/sysinit
     done
 
-    for i in acpid hwclock syslog bootmisc hostname sysctl modules connman dbus haveged issue; do
+    for i in acpid hwclock syslog bootmisc hostname sysctl modules dbus haveged issue; do
         ln -s /etc/init.d/$i /etc/runlevels/boot
     done
 
-    for i in sshd "local" ccapply iscsid; do
+    for i in sshd "local" ccapply hcloud-k3os-configurator hcloud-k3os-configurator-running iptables ip6tables iscsid; do
         ln -s /etc/init.d/$i /etc/runlevels/default
     done
 

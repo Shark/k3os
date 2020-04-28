@@ -1,0 +1,2 @@
+rc_need="hcloud-k3os-configurator-running"
+rc_want="!network-online"
